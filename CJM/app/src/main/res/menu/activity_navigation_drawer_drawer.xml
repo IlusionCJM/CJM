@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_item_inicio"
+            android:icon="@mipmap/ic_home_black_48dp"
+            android:checked="true"
+            android:title="@string/default_item_menu_title_inicio" />
+        <item
+            android:id="@+id/menu_title_administracion"
+            android:title="@string/default_item_menu_title_administracion">
+            <menu>
+                <group
+                    android:id="@+id/submenu_administracion"
+                    android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/menu_item_usuarios"
+                        android:icon="@mipmap/ic_person_black_48dp"
+                        android:title="@string/default_item_menu_title_usuarios" />
+                    <item
+                        android:id="@+id/menu_item_aretes_internos"
+                        android:icon="@mipmap/ic_loyalty_black_48dp"
+                        android:title="@string/default_item_menu_title_aretes_internos" />
+                    <item
+                        android:id="@+id/menu_item_cabezas"
+                        android:icon="@mipmap/ic_verified_user_black_48dp"
+                        android:title="@string/default_item_menu_title_cabezas" />
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/menu_title_actividades"
+            android:title="@string/default_item_menu_title_actividades">
+            <menu>
+                <group
+                    android:id="@+id/submenu_actividades"
+                    android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/menu_item_checklist"
+                        android:icon="@mipmap/ic_playlist_add_check_black_48dp"
+                        android:title="@string/default_item_menu_title_checklist" />
+                    <item
+                        android:id="@+id/menu_item_herrado"
+                        android:icon="@mipmap/ic_https_black_48dp"
+                        android:title="@string/default_item_menu_title_herrado" />
+                    <item
+                        android:id="@+id/menu_item_vacunado"
+                        android:icon="@mipmap/ic_local_hospital_black_48dp"
+                        android:title="@string/default_item_menu_title_vacunado" />
+                    <item
+                        android:id="@+id/menu_item_desparacitado"
+                        android:icon="@mipmap/ic_bug_report_black_48dp"
+                        android:title="@string/default_item_menu_title_desparacitado" />
+                </group>
+            </menu>
+        </item>
+    </group>
+</menu>
