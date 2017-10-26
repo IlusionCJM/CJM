@@ -251,28 +251,23 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/numero_arete_interno_cabeza"
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:counterEnabled="false"
-                    app:counterMaxLength="10"
-                    app:errorTextAppearance="@style/Error"
-                    app:hintTextAppearance="@style/TextInputLayout">
+                    android:layout_marginStart="5dp"
+                    android:text="Arete Interno"
+                    android:textSize="18sp" />
 
-                    <EditText
-                        android:id="@+id/txt_numero_arete_interno"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Número de Arete (Interno)"
-                        android:inputType="text"
-                        android:singleLine="true"
-                        android:theme="@style/EditText" />
+                <Spinner
+                    android:id="@+id/spinner_arete_interno"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dropdown" />
 
-                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout

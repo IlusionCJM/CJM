@@ -256,7 +256,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DatabaseReference dbCabeza =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CABEZAS)
-                        .child(cabeza.getFirebaseId());
+                        .child(cabeza.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_ITEM_CABEZA);
 
         cabeza.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
         cabeza.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
@@ -281,7 +282,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         DatabaseReference dbAreteInterno =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS)
-                        .child(areteInterno.getFirebaseId());
+                        .child(areteInterno.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_ITEM_ARETE_INTERNO);
 
         areteInterno.setEstatus(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO);
         areteInterno.setFechaDeEdicion(DateTimeUtils.getTimeStamp());

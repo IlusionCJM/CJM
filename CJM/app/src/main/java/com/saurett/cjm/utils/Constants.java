@@ -59,8 +59,12 @@ public class Constants {
     public static final String FRAGMENT_USUARIOS_REGISTER = "fragment_usuarios_register";
     public static final String FRAGMENT_CABEZAS_REGISTER = "fragment_cabezas_register";
 
-    /**Formularios**/
+    /**
+     * Formularios
+     **/
     public static final String FORMULARIO_ARETES_INTERNOS = "fragment_formulario_aretes_internos";
+    public static final String FORMULARIO_ARETES_INTERNOS_ASIGNACIONES = "fragment_formulario_aretes_internos_asignaciones";
+    public static final String FORMULARIO_ARETES_INTERNOS_ASIGNACIONES_LISTADO = "fragment_formulario_aretes_internos_listado";
     public static final String FORMULARIO_ARETES_INTERNOS_ACCIONES = "fragment_formulario_aretes_internos_acciones";
     public static final String FORMULARIO_CABEZAS = "fragment_formulario_cabezas";
     public static final String FORMULARIO_CABEZAS_ACCIONES = "fragment_formulario_cabezas_acciones";
@@ -124,14 +128,21 @@ public class Constants {
     }
 
 
-    /**Elementos de firebase**/
+    /**
+     * Elementos de firebase
+     **/
     public static final String FB_KEY_ITEM_ESTATUS_ACTIVO = "activo";
     public static final String FB_KEY_ITEM_ESTATUS_INACTIVO = "inactivo";
     public static final String FB_KEY_ITEM_ESTATUS_ELIMINADO = "eliminado";
     public static final String FB_KEY_MAIN_ARETES_INTERNOS = "aretesInternos";
+    public static final String FB_KEY_MAIN_ITEM_ARETE_INTERNO = "areteInterno";
+    public static final String FB_KEY_MAIN_ARETES_INTERNOS_HISTORIAL_CABEZAS = "historialCabezas";
     public static final String FB_KEY_MAIN_CABEZAS = "cabezas";
+    public static final String FB_KEY_MAIN_ITEM_CABEZA = "cabeza";
 
-    /**Identificadoes del sistema*/
+    /**
+     * Identificadoes del sistema
+     */
     public static final int WS_KEY_ELIMINAR_USUARIOS = 1;
     public static final int WS_KEY_ELIMINAR_ARETES_INTERNOS = 2;
     public static final int WS_KEY_ELIMINAR_CABEZAS = 3;

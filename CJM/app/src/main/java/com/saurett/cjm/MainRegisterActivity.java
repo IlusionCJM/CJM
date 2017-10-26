@@ -20,6 +20,9 @@ import com.saurett.cjm.helpers.DecodeExtraHelper;
 import com.saurett.cjm.utils.Constants;
 import com.saurett.cjm.utils.DateTimeUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by jvier on 04/09/2017.
  */
@@ -98,7 +101,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        this.firebaseUpdateArteesInternos(aretesInternos);
+        this.firebaseUpdateArtesInternos(aretesInternos);
     }
 
     @Override
@@ -123,28 +126,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         this.firebaseUpdateCabezas(cabezas);
     }
 
-    private void firebaseUpdateArteesInternos(AretesInternos aretesInternos) {
-        DatabaseReference dbAreteInterno =
-                FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS)
-                        .child(aretesInternos.getFirebaseId());
-
-        aretesInternos.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
-
-        dbAreteInterno.setValue(aretesInternos, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                pDialog.dismiss();
-
-                if (databaseError == null) {
-                    finish();
-                    Toast.makeText(getApplicationContext(),
-                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
     private void firebaseRegistroAretesInternos(AretesInternos aretesInternos) {
         /**obtiene la instancia como transportista**/
         final DatabaseReference dbAretesInternos =
@@ -158,6 +139,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         aretesInternos.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
         dbAretesInternos.child(aretesInternos.getFirebaseId())
+                .child(Constants.FB_KEY_MAIN_ITEM_ARETE_INTERNO)
                 .setValue(aretesInternos, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -172,11 +154,90 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 });
     }
 
-    private void firebaseUpdateCabezas(Cabezas cabezas) {
+    private void firebaseUpdateArtesInternos(AretesInternos aretesInternos) {
+        DatabaseReference dbAreteInterno =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS)
+                        .child(aretesInternos.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_ITEM_ARETE_INTERNO);
+
+        aretesInternos.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbAreteInterno.setValue(aretesInternos, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                pDialog.dismiss();
+
+                if (databaseError == null) {
+
+                    finish();
+                    Toast.makeText(getApplicationContext(),
+                            "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void firebaseRegistroCabezas(final Cabezas cabezas) {
+
+        /**obtiene la instancia como transportista**/
+        final DatabaseReference dbCabezas =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_CABEZAS);
+
+        String key = dbCabezas.push().getKey();
+
+        cabezas.setFirebaseId(key);
+        cabezas.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
+        cabezas.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+
+        dbCabezas.child(cabezas.getFirebaseId())
+                .child(Constants.FB_KEY_MAIN_ITEM_CABEZA)
+                .setValue(cabezas, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        if (databaseError == null) {
+                            firebaseRegistrarHistorialAreteInterno(cabezas);
+                        } else {
+                            pDialog.dismiss();
+                        }
+                    }
+                });
+    }
+
+    private void firebaseRegistrarHistorialAreteInterno(final Cabezas cabezas) {
+        final DatabaseReference dbAretesInternos =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS)
+                        .child(cabezas.getFirebaseIdAreteInterno())
+                        .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS_HISTORIAL_CABEZAS);
+
+        dbAretesInternos.child(cabezas.getFirebaseId())
+                .child(Constants.FB_KEY_MAIN_ITEM_CABEZA)
+                .setValue(cabezas, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+
+                        pDialog.dismiss();
+                        if (databaseError == null) {
+
+                            firebaseUpdateAsignacionAreteInterno(cabezas);
+
+                            finish();
+                            Toast.makeText(getApplicationContext(),
+                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    private void firebaseUpdateCabezas(final Cabezas cabezas) {
         DatabaseReference dbAreteInterno =
                 FirebaseDatabase.getInstance().getReference()
                         .child(Constants.FB_KEY_MAIN_CABEZAS)
-                        .child(cabezas.getFirebaseId());
+                        .child(cabezas.getFirebaseId())
+                        .child(Constants.FB_KEY_MAIN_ITEM_CABEZA);
 
         cabezas.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
 
@@ -186,6 +247,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 pDialog.dismiss();
 
                 if (databaseError == null) {
+
+                    firebasUpdateHistorialAreteInterno(cabezas);
+
                     finish();
                     Toast.makeText(getApplicationContext(),
                             "Actualizado correctamente...", Toast.LENGTH_SHORT).show();
@@ -194,31 +258,31 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
-    private void firebaseRegistroCabezas(Cabezas cabezas) {
-
-        /**obtiene la instancia como transportista**/
+    private void firebasUpdateHistorialAreteInterno(final Cabezas cabezas) {
         final DatabaseReference dbAretesInternos =
                 FirebaseDatabase.getInstance().getReference()
-                        .child(Constants.FB_KEY_MAIN_CABEZAS);
+                        .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS)
+                        .child(cabezas.getFirebaseIdAreteInterno())
+                        .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS_HISTORIAL_CABEZAS)
+                        .child(cabezas.getFirebaseId());
 
-        String key = dbAretesInternos.push().getKey();
+        Map<String, Object> actualizacion = new HashMap<>();
+        actualizacion.put("/" + Constants.FB_KEY_MAIN_ITEM_CABEZA, cabezas);
+        dbAretesInternos.updateChildren(actualizacion);
+    }
 
-        cabezas.setFirebaseId(key);
-        cabezas.setFechaDeCreacion(DateTimeUtils.getTimeStamp());
-        cabezas.setFechaDeEdicion(DateTimeUtils.getTimeStamp());
+    private void firebaseUpdateAsignacionAreteInterno(Cabezas cabezas) {
+        final DatabaseReference dbAretesInternos =
+                FirebaseDatabase.getInstance().getReference()
+                        .child(Constants.FB_KEY_MAIN_ARETES_INTERNOS)
+                        .child(cabezas.getFirebaseIdAreteInterno())
+                        .child(Constants.FB_KEY_MAIN_ITEM_ARETE_INTERNO);
 
-        dbAretesInternos.child(cabezas.getFirebaseId())
-                .setValue(cabezas, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+        Map<String, Object> actualizacion = new HashMap<>();
 
-                        pDialog.dismiss();
-                        if (databaseError == null) {
-                            finish();
-                            Toast.makeText(getApplicationContext(),
-                                    "Registrado correctamente...", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+        actualizacion.put("/estatus", cabezas.getEstatus());
+        actualizacion.put("/fechaDeEdicion", DateTimeUtils.getTimeStamp());
+
+        dbAretesInternos.updateChildren(actualizacion);
     }
 }

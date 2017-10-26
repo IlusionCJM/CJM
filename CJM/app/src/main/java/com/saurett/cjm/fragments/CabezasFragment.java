@@ -88,7 +88,7 @@ public class CabezasFragment extends Fragment implements View.OnClickListener {
                 cabezasList = new ArrayList<>();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Cabezas cabeza = postSnapshot.getValue(Cabezas.class);
+                    Cabezas cabeza = postSnapshot.child(Constants.FB_KEY_MAIN_ITEM_CABEZA).getValue(Cabezas.class);
                     if (!cabeza.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
                         cabezasList.add(cabeza);
                     }
@@ -117,7 +117,7 @@ public class CabezasFragment extends Fragment implements View.OnClickListener {
         Collections.sort(cabezasList, new Comparator<Cabezas>() {
             @Override
             public int compare(Cabezas o1, Cabezas o2) {
-                return (o1.getNombreDelGanado().compareTo(o2.getNombreDelGanado()));
+                return (o1.getNumeroDeAreteInterno().compareTo(o2.getNumeroDeAreteInterno()));
             }
         });
 

@@ -88,7 +88,7 @@ public class AretesInternosFragment extends Fragment implements View.OnClickList
                 aretesInternosList = new ArrayList<>();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AretesInternos areteInterno = postSnapshot.getValue(AretesInternos.class);
+                    AretesInternos areteInterno = postSnapshot.child(Constants.FB_KEY_MAIN_ITEM_ARETE_INTERNO).getValue(AretesInternos.class);
                     if (!areteInterno.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
                         aretesInternosList.add(areteInterno);
                     }
